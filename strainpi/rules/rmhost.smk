@@ -27,7 +27,7 @@ if config["params"]["rmhost"]["bwa"]["do"]:
         priority:
             20
         conda:
-            config["envs"]["align"]
+            config["envs"]["bwa"]
         shell:
             '''
             {params.bwa} index -p {params.index_prefix} {input} >{log} 2>&1
@@ -63,7 +63,7 @@ if config["params"]["rmhost"]["bwa"]["do"]:
         threads:
             config["params"]["rmhost"]["threads"]
         conda:
-            config["envs"]["align"]
+            config["envs"]["bwa"]
         shell:
             '''
             OUTDIR=$(dirname {output})
@@ -221,7 +221,7 @@ if config["params"]["rmhost"]["bowtie2"]["do"]:
         threads:
             config["params"]["rmhost"]["threads"]
         conda:
-            config["envs"]["align"]
+            config["envs"]["bowtie2"]
         shell:
             '''
             bowtie2-build --threads {threads} {input} {params.index_prefix} >{log} 2>&1
@@ -256,7 +256,7 @@ if config["params"]["rmhost"]["bowtie2"]["do"]:
         threads:
             config["params"]["rmhost"]["threads"]
         conda:
-            config["envs"]["align"]
+            config["envs"]["bowtie2"]
         shell:
             '''
             OUTDIR=$(dirname {output})
@@ -417,7 +417,7 @@ if config["params"]["rmhost"]["minimap2"]["do"]:
         threads:
             config["params"]["rmhost"]["threads"]
         conda:
-            config["envs"]["align"]
+            config["envs"]["minimap2"]
         shell:
             '''
             minimap2 -t {threads} -I {params.split_size} -d {output} {intput} >{log} 2>&1
