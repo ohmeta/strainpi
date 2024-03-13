@@ -73,7 +73,7 @@ rule alignment_bowtie2:
             -m 3G \
             -@4 \
             -T {params.pe_bam_dir}/temp \
-            -O BAM -o $BAM -
+            -O BAM -o $BAMPE -
         fi
 
         if [ "$RS" != "" ];
@@ -95,7 +95,7 @@ rule alignment_bowtie2:
             -m 3G \
             -@4 \
             -T {params.se_bam_dir}/temp \
-            -O BAM -o $BAM -
+            -O BAM -o $BAMSE -
         fi
 
         echo "{{ \
@@ -173,7 +173,7 @@ rule alignment_strobealign:
             strobealign \
             --use-index \
             --threads {threads} \
-            -r {params.read_length}
+            -r {params.read_length} \
             {params.index_prefix} \
             $R1 \
             $R2 \
@@ -184,7 +184,7 @@ rule alignment_strobealign:
             -m 3G \
             -@4 \
             -T {params.pe_bam_dir}/temp \
-            -O BAM -o $BAM -
+            -O BAM -o $BAMPE -
         fi
 
         if [ "$RS" != "" ];
@@ -207,7 +207,7 @@ rule alignment_strobealign:
             -m 3G \
             -@4 \
             -T {params.se_bam_dir}/temp \
-            -O BAM -o $BAM -
+            -O BAM -o $BAMSE -
         fi
 
         echo "{{ \
