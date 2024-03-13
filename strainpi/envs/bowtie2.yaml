@@ -1,0 +1,10 @@
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - bowtie2=2.5.3
+  - samtools=1.19.2
+  - sambamba=1.0
+  - pigz
+  - jq

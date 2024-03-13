@@ -1,0 +1,8 @@
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - kneaddata=0.12.0
+  - pigz
+  - jq
