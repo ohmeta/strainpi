@@ -104,7 +104,6 @@ def run_snakemake(args, unknown, snakefile, workflow):
 
 
 def update_config_tools(conf, begin, trimmer, rmhoster, identifier, gpu):
-    conf["params"]["simulate"]["do"] = False
     conf["params"]["begin"] = begin
 
     for trimmer_ in ["sickle", "fastp"]:
@@ -129,10 +128,7 @@ def update_config_tools(conf, begin, trimmer, rmhoster, identifier, gpu):
     if gpu == "false":
         conf["params"]["binning"]["vamb"]["cuda"] = False
 
-    if begin == "simulate":
-        conf["params"]["simulate"]["do"] = True
-
-    elif begin == "rmhost":
+    if begin == "rmhost":
         conf["params"]["trimming"][trimmer]["do"] = False
 
     elif (begin == "identify"):

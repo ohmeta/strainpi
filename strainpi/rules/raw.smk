@@ -84,12 +84,17 @@ rule raw_fastqc_multiqc:
         '''
 
 
-rule raw_fastqc_all:
-    input:
-        expand([
-            os.path.join(config["output"]["raw"], "report/fastqc/{sample}"),
-            os.path.join(config["output"]["raw"], "report/multiqc/fastqc_multiqc_report.html")],
-            sample=SAMPLES_ID_LIST)
+if config["params"]["raw"]["fastqc"]["do"]:
+    rule raw_fastqc_all:
+        input:
+            expand([
+                os.path.join(config["output"]["raw"], "report/fastqc/{sample}"),
+                os.path.join(config["output"]["raw"], "report/multiqc/fastqc_multiqc_report.html")],
+                sample=SAMPLES_ID_LIST)
+
+else:
+    rule raw_fastqc_all:
+        input:
 
 
 rule raw_report:

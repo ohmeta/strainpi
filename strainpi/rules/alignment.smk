@@ -27,12 +27,14 @@ rule alignment_bowtie2:
         pe_bam_dir = os.path.join(config["output"]["alignment"], "bam/bowtie2/{sample}/pe"),
         se_bam_dir = os.path.join(config["output"]["alignment"], "bam/bowtie2/{sample}/se"),
         report_dir = os.path.join(config["output"]["alignment"], "report/bowtie2/{sample}"),
-        presets = config["params"]["alignment"]["bowtie2"]["presets"],
+        presets = config["params"]["alignment"]["bowtie2"]["preset"],
         index_prefix = config["params"]["alignment"]["bowtie2"]["index_prefix"]
     priority:
         24
     conda:
         config["envs"]["bowtie2"]
+    threads:
+        config["params"]["alignment"]["threads"]
     shell:
         '''
         OUTDIR=$(dirname {output})
@@ -105,6 +107,7 @@ rule alignment_bowtie2:
         '''
 
 
+if config["params"]["alignment"]["bowtie2"]["do"]:
     rule alignment_bowtie2_all:
         input:
             expand(os.path.join(
@@ -115,3 +118,12 @@ else:
     rule alignment_bowtie2_all:
         input:
 
+
+rule alignment_all:
+    input:
+        rules.alignment_bowtie2_all.input
+    
+
+localrules:
+    alignment_bowtie2_all,
+    alignment_all
