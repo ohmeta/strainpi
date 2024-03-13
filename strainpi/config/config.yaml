@@ -3,10 +3,6 @@ params:
   begin: "trimming"
   samples: "samples.tsv"
 
-  simulate:
-    do: False
-    threads: 8
-
   raw:
     threads: 8
     check_paired: True
@@ -97,12 +93,23 @@ params:
     seqkit:
       threads: 4
 
+  alignment:
+    threads: 8
+    bowtie2:
+      do: True
+      preset: "--very-sensitive"
+      index_prefix: "/home/jiezhu/databases/ecogenomics/MagIC/ELM-MAGs/v1.0/db_bowtie2/MagIC_OTUs.fna"
+    strobealign:
+      do: True
+      index_prefix: "/home/jiezhu/databases/ecogenomics/MagIC/ELM-MAGs/v1.0/db_strobealign/MagIC_OTUs.fna"
+
   identify:
     threads: 8
     strainphlan:
       do: True
     instrain:
       do: True
+      aligner: ["bowtie2", "strobealign"]
 
 
 output:
@@ -111,7 +118,8 @@ output:
   trimming: "results/01.trimming"
   rmhost: "results/02.rmhost"
   qcreport: "results/03.qcreport"
-  identify: "results/04.identify"
+  alignment: "results/04.alignment"
+  identify: "results/05.identify"
 
 
 envs:
@@ -120,7 +128,9 @@ envs:
   trimming: "envs/trimming.yaml"
   multiqc: "envs/multiqc.yaml"
   report: "envs/report.yaml"
-  align: "envs/align.yaml"
+  bwa: "envs/bwa.yaml"
+  bowtie2: "envs/bowtie2.yaml"
+  minimap2: "envs/minimap2.yaml"
   kneaddata: "envs/kneaddata.yaml"
   strainphlan: "envs/strainphlan.yaml"
   instrain: "envs/instrain.yaml"
