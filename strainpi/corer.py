@@ -196,7 +196,7 @@ def snakemake_summary(snakefile, configfile, task):
 
 
 def main():
-    banner = """\\
+    banner = """
 
     ███████ ████████ ██████   █████  ██ ███    ██ ██████  ██ 
     ██         ██    ██   ██ ██   ██ ██ ████   ██ ██   ██ ██ 
