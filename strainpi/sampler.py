@@ -92,8 +92,8 @@ def parse_samples(samples_tsv):
     for sample_id in samples_df.index.get_level_values("sample_id").unique():
         # check short paired-end reads
         if (FQ_HEADERS["PE_FORWARD"] in samples_df.columns) and (FQ_HEADERS["PE_REVERSE"] in samples_df.columns):
-            forward_reads = samples_df.loc[sample_id][FQ_HEADERS["PE_FORWARD"]].tolist()
-            reverse_reads = samples_df.loc[sample_id][FQ_HEADERS["PE_REVERSE"]].tolist()
+            forward_reads = samples_df.loc[[sample_id]][FQ_HEADERS["PE_FORWARD"]].dropna().tolist()
+            reverse_reads = samples_df.loc[[sample_id]][FQ_HEADERS["PE_REVERSE"]].dropna().tolist()
 
             for forward_read, reverse_read in zip(forward_reads, reverse_reads):
                 if pd.isna(forward_read) and pd.isna(reverse_read):
@@ -110,17 +110,17 @@ def parse_samples(samples_tsv):
 
         # check short single-end reads
         if FQ_HEADERS["SE"] in samples_df.columns:
-            single_reads = samples_df.loc[sample_id][FQ_HEADERS["SE"]].tolist()
+            single_reads = samples_df.loc[[sample_id]][FQ_HEADERS["SE"]].dropna().tolist()
             cancel = pass_gzip_format(single_reads)
 
         # check long reads
         if FQ_HEADERS["LONG"] in samples_df.columns:
-            long_reads = samples_df.loc[sample_id][FQ_HEADERS["LONG"]].tolist()
+            long_reads = samples_df.loc[[sample_id]][FQ_HEADERS["LONG"]].dropna().tolist()
             cancel = pass_gzip_format(long_reads)
 
         # check short_interleaved
         if FQ_HEADERS["INTERLEAVED"] in samples_df.columns:
-            interleaved_reads = samples_df.loc[sample_id][FQ_HEADERS["INTERLEAVED"]].tolist()
+            interleaved_reads = samples_df.loc[[sample_id]][FQ_HEADERS["INTERLEAVED"]].tolist()
             cancel = pass_gzip_format(interleaved_reads)
 
     if cancel:
@@ -155,8 +155,8 @@ def get_raw_input_dict(wildcards, samples_df, data_type):
 
 
 def get_reads(sample_df, wildcards, col):
-    return sample_df.loc[wildcards.sample][col].dropna().tolist()
+    return sample_df.loc[[wildcards.sample]][col].dropna().tolist()
 
 
 def get_sample_id(sample_df, wildcards, col):
-    return sample_df.loc[wildcards.sample][col].dropna()[0]
+    return sample_df.loc[[wildcards.sample]][col].dropna()[0]

@@ -38,7 +38,7 @@ IDENTIFIERS = []
 if config["params"]["identify"]["strainphlan"]["do"]:
     IDENTIFIERS += ["strainphlan"]
 if config["params"]["identify"]["instrain"]["do"]:
-    IDENTIFIERS += ["strainphlan"]
+    IDENTIFIERS += ["instrain"]
 
 
 SAMPLES, DATA_TYPE = strainpi.parse_samples(config["params"]["samples"])
