@@ -1,0 +1,10 @@
+pandas
+numpy
+ruamel.yaml
+snakemake >=7.0
+openpyxl
+natsort
+biopython >=1.73
+seaborn
+matplotlib
+executor

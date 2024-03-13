@@ -7,6 +7,7 @@
 - StrainFinder
 - SameStr
 - StrainGE
+- inStrain
 
 
 

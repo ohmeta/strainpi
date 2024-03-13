@@ -1,0 +1,14 @@
+include *.md *.txt
+include LICENSE
+
+recursive-include strainpi/ *
+recursive-include strainpi/wrappers *
+recursive-include strainpi/rules *
+recursive-include strainpi/snakefiles *
+recursive-include strainpi/envs *
+recursive-include strainpi/config *
+
+global-exclude strainpi/ *.pyc
+global-exclude strainpi/__pycache__ *.pyc
+global-exclude strainpi/wrappers/ *.pyc
+global-exclude strainpi/wrappers/__pycache__ *.pyc
