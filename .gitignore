@@ -1,0 +1,29 @@
+# vscode
+.vscode
+
+# pycharm
+.idea
+
+# kdevelop
+.kdev4
+metapi.kdev4
+
+# snakemake
+.snakemake
+
+strainpi/__pycache__/
+strainpi/*.pyc 
+
+# pipenv
+build/
+dist/
+strainpi.egg-info/
+release
+
+conda/*.gz
+
+notebooks/
+notebook
+
+# test
+test/
