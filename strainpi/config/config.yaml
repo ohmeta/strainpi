@@ -102,6 +102,7 @@ params:
     strobealign:
       do: True
       index_prefix: "/home/jiezhu/databases/ecogenomics/MagIC/ELM-MAGs/v1.0/db_strobealign/MagIC_OTUs.fna"
+      read_length: 100 # update it by yourself when apply it into real world data
 
   identify:
     threads: 8
@@ -131,6 +132,7 @@ envs:
   bwa: "envs/bwa.yaml"
   bowtie2: "envs/bowtie2.yaml"
   minimap2: "envs/minimap2.yaml"
+  strobealign: "envs/strobealign.yaml"
   kneaddata: "envs/kneaddata.yaml"
   strainphlan: "envs/strainphlan.yaml"
   instrain: "envs/instrain.yaml"
