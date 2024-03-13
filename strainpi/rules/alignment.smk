@@ -38,8 +38,6 @@ rule alignment_bowtie2:
     shell:
         '''
         OUTDIR=$(dirname {output})
-        OUTPE=$(dirname {params.pe_bam_dir})
-        OUTSE=$(dirname {params.se_bam_dir})
 
         rm -rf $OUTDIR {params.report_dir}
         mkdir -p $OUTDIR {params.report_dir}
@@ -55,7 +53,7 @@ rule alignment_bowtie2:
 
         if [ "$R1" != "" ];
         then
-            mkdir -p $OUTPE
+            mkdir -p {params.pe_bam_dir}
 
             BAMPE={params.pe_bam_dir}/sorted.bam
             STATSPE={params.report_dir}/align_stats.PE.txt
@@ -78,7 +76,7 @@ rule alignment_bowtie2:
 
         if [ "$RS" != "" ];
         then
-            mkdir -p $OUTSE
+            mkdir -p {params.se_bam_dir}
  
             BAMSE={params.se_bam_dir}/sorted.bam
             STATSSE={params.report_dir}/align_stats.PE.txt
@@ -148,8 +146,6 @@ rule alignment_strobealign:
     shell:
         '''
         OUTDIR=$(dirname {output})
-        OUTPE=$(dirname {params.pe_bam_dir})
-        OUTSE=$(dirname {params.se_bam_dir})
 
         rm -rf $OUTDIR {params.report_dir}
         mkdir -p $OUTDIR {params.report_dir}
@@ -165,7 +161,7 @@ rule alignment_strobealign:
 
         if [ "$R1" != "" ];
         then
-            mkdir -p $OUTPE
+            mkdir -p {params.pe_bam_dir}
 
             BAMPE={params.pe_bam_dir}/sorted.bam
             STATSPE={params.report_dir}/align_stats.PE.txt
@@ -189,7 +185,7 @@ rule alignment_strobealign:
 
         if [ "$RS" != "" ];
         then
-            mkdir -p $OUTSE
+            mkdir -p {params.se_bam_dir}
  
             BAMSE={params.se_bam_dir}/sorted.bam
             STATSSE={params.report_dir}/align_stats.PE.txt
