@@ -28,6 +28,8 @@ WORKFLOWS_IDENTIFY = [
     "rmhost_report_all",
     "rmhost_all",
     "qcreport_all",
+    "alignment_bowtie2_all",
+    "alignment_strobealign_all",
     "all",
 ]
 
