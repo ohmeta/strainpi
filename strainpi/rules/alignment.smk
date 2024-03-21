@@ -47,7 +47,9 @@ rule alignment_bowtie2:
         RS=$(jq -r -M '.SE' {input.reads} | sed 's/^null$//g')
 
         BAMPE=""
+        BAIPE=""
         BAMSE=""
+        BAISE=""
         STATSPE=""
         STATSSE=""
 
@@ -56,6 +58,7 @@ rule alignment_bowtie2:
             mkdir -p {params.pe_bam_dir}
 
             BAMPE={params.pe_bam_dir}/sorted.bam
+            BAIPE={params.pe_bam_dir}/sorted.bam.bai
             STATSPE={params.report_dir}/align_stats.PE.txt
 
             bowtie2 \
@@ -65,20 +68,22 @@ rule alignment_bowtie2:
             -2 $R2 \
             {params.presets} \
             2> {log} | \
-            tee >(samtools flagstat \
-                -@4 - > $STATSPE) | \
+            tee >(samtools flagstat -@4 - > $STATSPE) | \
             samtools sort \
             -m 3G \
             -@4 \
             -T {params.pe_bam_dir}/temp \
             -O BAM -o $BAMPE -
+
+            samtools index -@{threads} $BAMPE $BAIPE 2>> {log}
         fi
 
         if [ "$RS" != "" ];
         then
             mkdir -p {params.se_bam_dir}
- 
+
             BAMSE={params.se_bam_dir}/sorted.bam
+            BAISE={params.se_bam_dir}/sorted.bam.bai
             STATSSE={params.report_dir}/align_stats.PE.txt
 
             bowtie2 \
@@ -87,18 +92,21 @@ rule alignment_bowtie2:
             -x {params.index_prefix} \
             -U $RS \
             2> {log} | \
-            tee >(samtools flagstat \
-                -@4 - > $STATSSE) | \
+            tee >(samtools flagstat -@4 - > $STATSSE) | \
             samtools sort \
             -m 3G \
             -@4 \
             -T {params.se_bam_dir}/temp \
             -O BAM -o $BAMSE -
+
+            samtools index -@{threads} $BAMSE $BAISE 2>> {log}
         fi
 
         echo "{{ \
         \\"BAM_PE\\": \\"$BAMPE\\", \
+        \\"BAI_PE\\": \\"$BAIPE\\", \
         \\"BAM_SE\\": \\"$BAMSE\\", \
+        \\"BAI_SE\\": \\"$BAISE\\", \
         \\"PE_ALIGN_STATS\\": \\"$STATSPE\\", \
         \\"SE_ALIGN_STATS\\": \\"$STATSSE\\" }}" | \
         jq . > {output}
@@ -155,7 +163,9 @@ rule alignment_strobealign:
         RS=$(jq -r -M '.SE' {input.reads} | sed 's/^null$//g')
 
         BAMPE=""
+        BAIPE=""
         BAMSE=""
+        BAISE=""
         STATSPE=""
         STATSSE=""
 
@@ -164,6 +174,7 @@ rule alignment_strobealign:
             mkdir -p {params.pe_bam_dir}
 
             BAMPE={params.pe_bam_dir}/sorted.bam
+            BAIPE={params.pe_bam_dir}/sorted.bam.bai
             STATSPE={params.report_dir}/align_stats.PE.txt
 
             strobealign \
@@ -174,20 +185,22 @@ rule alignment_strobealign:
             $R1 \
             $R2 \
             2> {log} | \
-            tee >(samtools flagstat \
-                -@4 - > $STATSPE) | \
+            tee >(samtools flagstat -@4 - > $STATSPE) | \
             samtools sort \
             -m 3G \
             -@4 \
             -T {params.pe_bam_dir}/temp \
             -O BAM -o $BAMPE -
+
+            samtools index -@{threads} $BAMPE $BAIPE 2>> {log}
         fi
 
         if [ "$RS" != "" ];
         then
             mkdir -p {params.se_bam_dir}
- 
+
             BAMSE={params.se_bam_dir}/sorted.bam
+            BAISE={params.se_bam_dir}/sorted.bam.bai
             STATSSE={params.report_dir}/align_stats.PE.txt
 
             strobealign \
@@ -197,18 +210,21 @@ rule alignment_strobealign:
             {params.index_prefix} \
             $RS \
             2> {log} | \
-            tee >(samtools flagstat \
-                -@4 - > $STATSSE) | \
+            tee >(samtools flagstat -@4 - > $STATSSE) | \
             samtools sort \
             -m 3G \
             -@4 \
             -T {params.se_bam_dir}/temp \
             -O BAM -o $BAMSE -
+
+            samtools index -@{threads} $BAMSE $BAISE 2>> {log}
         fi
 
         echo "{{ \
         \\"BAM_PE\\": \\"$BAMPE\\", \
+        \\"BAI_PE\\": \\"$BAIPE\\", \
         \\"BAM_SE\\": \\"$BAMSE\\", \
+        \\"BAI_SE\\": \\"$BAISE\\", \
         \\"PE_ALIGN_STATS\\": \\"$STATSPE\\", \
         \\"SE_ALIGN_STATS\\": \\"$STATSSE\\" }}" | \
         jq . > {output}
@@ -231,7 +247,7 @@ rule alignment_all:
     input:
         rules.alignment_bowtie2_all.input,
         rules.alignment_strobealign_all.input
-    
+
 
 localrules:
     alignment_bowtie2_all,

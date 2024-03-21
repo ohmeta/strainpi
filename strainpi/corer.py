@@ -30,6 +30,7 @@ WORKFLOWS_IDENTIFY = [
     "qcreport_all",
     "alignment_bowtie2_all",
     "alignment_strobealign_all",
+    "alignment_all",
     "all",
 ]
 
